@@ -1,4 +1,4 @@
-#tool nuget:?package=GitVersion.CommandLine&version=5.1.3
+#tool nuget:?package=GitVersion.CommandLine&version=5.2.0
 
 var target = Argument("Target", "Successful-Task");
 
