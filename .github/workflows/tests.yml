@@ -49,3 +49,10 @@ jobs:
         with:
           verbosity: Diagnostic
           target: Test-Verbosity
+      - name: Reproduce issue 14
+        uses: ./
+        with:
+          target: Reproduce-Issue-14
+          verbosity: Diagnostic
+          cake-version: 0.38.1
+          cake-bootstrap: true

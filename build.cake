@@ -1,3 +1,5 @@
+#tool nuget:?package=GitVersion.CommandLine&version=5.1.2
+
 var target = Argument("Target", "Successful-Task");
 
 Task("Successful-Task")
@@ -56,6 +58,19 @@ Task("Test-Verbosity")
     if (expectedVerbosity != actualVerbosity)
     {
         throw new Exception($"✕ Expected verbosity {expectedVerbosity} but got {actualVerbosity}");
+    }
+
+    Information("✓ Passed");
+});
+
+Task("Reproduce-Issue-14")
+    .Does(() =>
+{
+    var version = GitVersion().FullSemVer;
+
+    if (string.IsNullOrEmpty(version))
+    {
+        throw new Exception($"✕ Expected version to not be null nor empty");
     }
 
     Information("✓ Passed");
