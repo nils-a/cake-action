@@ -1,16 +1,33 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as ini from 'ini';
 import { Platform } from './platform';
 
 export class ToolsDirectory {
   private readonly _path: string;
 
-  constructor(path: string = 'tools') {
-    this._path = path;
+  constructor(path: string|null = null) {
+    if (!path) {
+      path = this.getDefaultToolsFolder();
+    }
+
+    this._path = path as string;
   }
 
   get path(): string {
     return path.normalize(this._path);
+  }
+
+  getDefaultToolsFolder(): string {
+    if (fs.existsSync('./cake.config')) {
+      const cfg = ini.parse(fs.readFileSync('./cake.config', 'utf-8'));
+      const folder = cfg['paths']?.['tools'] as string;
+      if (folder) {
+        return folder.replace('\\', '/');
+      }
+    }
+
+    return "tools";
   }
 
   create() {
